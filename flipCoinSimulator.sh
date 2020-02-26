@@ -1,9 +1,5 @@
 #!/bin/bash -x
-# Constants
-IS_HEADS=0
-IS_TAILS=1
-HEADS=0
-TAILS=1
+
 #variables
 count1=0
 count2=0
@@ -20,36 +16,56 @@ count12=0
 count13=0
 count14=0
 declare -A coinDictionary
-coinDictionary=([H]=$count1 [T]=$count2)
+coinDictionary=([H]=$count1 [T]=$count2 [HH]=$count3 [HT]=$count4 [TH]=$count5 [TT]=$count6)
 
-# Function to generate random and return heads or tails accordingly
-function getFlipCoinResult()
-{
-	outcomeCheck=$((RANDOM%2))
-	if(($outcomeCheck==$IS_HEADS))
-		then
-			echo $HEADS 
-		else
-			echo $TAILS
-	fi
-}
-read -p "How many times do you want to flip a coin?:" noOfFlips
+read -p "How many times do you want to flip a coin for singlet combination?:" noOfFlips
 for((flipCount=1;flipCount<=$noOfFlips;flipCount++))
 do
-	if(("$(getFlipCoinResult)"==$HEADS))
-	then
-			coinDictionary[H]=$((${coinDictionary[H]}+1))
-	else
-			coinDictionary[T]=$((${coinDictionary[T]}+1))
-	fi
+	case $((RANDOM%2)) in
+		0) coinDictionary[H]=$((${coinDictionary[H]}+1))
+		;;
+		1) coinDictionary[T]=$((${coinDictionary[T]}+1))
+		;;
+	esac
 done
 # Print the dictionary of singlet combination
 for key in "${!coinDictionary[@]}"
 do
-	echo ""${key}" : "${coinDictionary[$key]}"" 
+	echo "${key} : ${coinDictionary[$key]}" 
 done
-
+# Calculate percentage of head and percentage of tail
 headPercentage=`echo " scale = 4 ; (${coinDictionary[H]}*100)/$noOfFlips" | bc -l`
 tailPercentage=`echo " scale = 4 ; 100-$headPercentage" | bc -l`
 echo "Percentage of heads is :" $headPercentage
 echo "Percentage of tails is :" $tailPercentage
+echo "----------------------------------------------------------------------------------"
+read -p "How many times do you want to flip a coin for doublet combination?:" noOfFlips2
+for((flipCount=1;flipCount<=$(($noOfFlips2*2));flipCount++))
+do
+	case $((RANDOM%4)) in
+		0) coinDictionary[HH]=$((${coinDictionary[HH]}+1))
+		;;
+		1) coinDictionary[HT]=$((${coinDictionary[HT]}+1))
+		;;
+		2) coinDictionary[TH]=$((${coinDictionary[TH]}+1))
+		;;
+		3) coinDictionary[TT]=$((${coinDictionary[TT]}+1))
+		;;
+	esac
+done
+# Print the dictionary for doublet combination
+for key in "${!coinDictionary[@]}"
+do
+	echo ""${key}" : "${coinDictionary[$key]}"" 
+done
+# Print the percentages of doublet combinations
+HHpercentage=`echo " scale = 4 ; (${coinDictionary[HH]}*100)/($noOfFlips2*2)" | bc -l`
+echo "HH percentage is " $HHpercentage
+HTpercentage=`echo " scale = 4 ; (${coinDictionary[HT]}*100)/($noOfFlips2*2)" | bc -l`
+echo "HT percentahe is " $HTpercentage
+THpercentage=`echo " scale = 4 ; (${coinDictionary[TH]}*100)/($noOfFlips2*2)" | bc -l`
+echo "TH percentage is " $THpercentage
+TTpercentage=`echo " scale = 4 ; (${coinDictionary[TT]}*100)/($noOfFlips2*2)" | bc -l`
+echo "TT percentage is " $TTpercentage
+
+
