@@ -1,7 +1,6 @@
 #!/bin/bash -x
 
 #variables
-
 H=0
 T=0
 HH=0
