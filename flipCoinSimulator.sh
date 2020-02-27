@@ -34,16 +34,12 @@ function getSingletCombination()
 			;;
 		esac
 	done
-
 	# Print the dictionary of singlet combination
-
 	for key in "${!coinDictionary[@]}"
 	do
 		echo "${key} : ${coinDictionary[$key]}" 
 	done
-
 	# Calculate percentages for singlet combinations
-
 	headPercentage=`echo " scale = 4 ; (${coinDictionary[H]}*100)/$noOfFlips" | bc -l`
 	tailPercentage=`echo " scale = 4 ; 100-$headPercentage" | bc -l`
 	echo "Percentage of heads is :" $headPercentage
@@ -66,14 +62,11 @@ function getDoubletCombination()
 			;;
 		esac
 	done
-
 	# Print the dictionary for doublet combination
-
 	for key in "${!coinDictionary[@]}"
 	do
 		echo "${key}" : "${coinDictionary[$key]}"
 	done
-
 	# Calculate the percentages of doublet combinations
 	HHpercentage=`echo " scale = 4 ; (${coinDictionary[HH]}*100)/$noOfFlips2" | bc -l`
 	echo "HH percentage is " $HHpercentage
@@ -118,25 +111,18 @@ function getTripletCombination()
 	# Calculate the percentages for triplets
 	HHHpercentage=`echo " scale = 4 ; (${coinDictionary[HHH]}*100)/$noOfFlips3" | bc -l`
 	echo "HHH percentage is : " $HHHpercentage
-
 	TTTpercentage=`echo " scale = 4 ; (${coinDictionary[TTT]}*100)/$noOfFlips3" | bc -l`
 	echo "TTT percentage is : " $TTTpercentage
-
 	HTTpercentage=`echo " scale = 4 ; (${coinDictionary[HTT]}*100)/$noOfFlips3" | bc -l`
 	echo "HTT percentage is : " $HTTpercentage
-
 	THHpercentage=`echo " scale = 4 ; (${coinDictionary[THH]}*100)/$noOfFlips3" | bc -l`
 	echo "THH percentage is : " $THHpercentage
-
 	HHTpercentage=`echo " scale = 4 ; (${coinDictionary[HHT]}*100)/$noOfFlips3" | bc -l`
 	echo "HHT percentage is : " $HHTpercentage
-
 	TTHpercentage=`echo " scale = 4 ; (${coinDictionary[TTH]}*100)/$noOfFlips3" | bc -l`
 	echo "TTH percentage is : " $TTHpercentage
-
 	HTHpercentage=`echo " scale = 4 ; (${coinDictionary[HTH]}*100)/$noOfFlips3" | bc -l`
 	echo "HTH percentage is : " $HTHpercentage
-
 	THTpercentage=`echo " scale = 4 ; (${coinDictionary[THT]}*100)/$noOfFlips3" | bc -l`
 	echo "THT percentage is : " $THTpercentage
 }
@@ -150,12 +136,12 @@ function sortTheValues()
 	done | sort -rn -k3
 	echo "Winning combination is:"
 	for value in "${!coinDictionary[@]}"
-   do
-      echo "$value : ${coinDictionary["$value"]}"
-   done | sort -rn -k3 | head -1
+	do
+		echo "$value : ${coinDictionary["$value"]}"
+	done | sort -rn -k3 | head -1
 }
-
-while(($choice<3))
+# Main driver program
+while(($choice<4))
 do
 	echo "Welcome to flip coin Simulation"
 	echo "1.Flip coin for singlet combination"
@@ -173,7 +159,6 @@ do
 		;;
 	esac
 done
-
 sortTheValues
 
 
